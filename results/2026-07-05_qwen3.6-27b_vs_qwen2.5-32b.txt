@@ -1,0 +1,59 @@
+
+============================================================
+Model: Qwen3.6-27B
+============================================================
+  Loading model (warmup)...
+  Model ready in 0.2s
+  [short] run 1/2... TTFT=0.07s  31.4 tok/s  (50 tokens)
+  [short] run 2/2... TTFT=0.07s  31.4 tok/s  (50 tokens)
+  [medium] run 1/2... TTFT=0.07s  31.9 tok/s  (200 tokens)
+  [medium] run 2/2... TTFT=0.07s  32.1 tok/s  (200 tokens)
+  [long] run 1/2... TTFT=0.08s  32.0 tok/s  (600 tokens)
+  [long] run 2/2... TTFT=0.08s  32.0 tok/s  (600 tokens)
+  Cooling down 15s...
+
+============================================================
+Model: Qwen2.5-32B-Instruct-AWQ
+============================================================
+  Loading model (warmup)...
+  Model ready in 71.1s
+  [short] run 1/2... TTFT=0.11s  22.6 tok/s  (8 tokens)
+  [short] run 2/2... TTFT=0.07s  25.3 tok/s  (8 tokens)
+  [medium] run 1/2... TTFT=0.07s  27.8 tok/s  (99 tokens)
+  [medium] run 2/2... TTFT=0.07s  27.8 tok/s  (99 tokens)
+  [long] run 1/2... TTFT=0.12s  27.5 tok/s  (600 tokens)
+  [long] run 2/2... TTFT=0.06s  27.6 tok/s  (600 tokens)
+
+======================================================================
+BENCHMARK RESULTS
+======================================================================
+
+Prompt: short  (max_tokens=50)
+  Model                           TTFT    Tok/s   Tokens     Time
+  ---------------------------------------------------------------
+  Qwen3.6-27B                    0.07s    31.4       50     1.6s
+  Qwen2.5-32B-Instruct-AWQ       0.09s    24.0        8     0.3s
+
+Prompt: medium  (max_tokens=200)
+  Model                           TTFT    Tok/s   Tokens     Time
+  ---------------------------------------------------------------
+  Qwen3.6-27B                    0.07s    32.0      200     6.3s
+  Qwen2.5-32B-Instruct-AWQ       0.07s    27.8       99     3.6s
+
+Prompt: long  (max_tokens=600)
+  Model                           TTFT    Tok/s   Tokens     Time
+  ---------------------------------------------------------------
+  Qwen3.6-27B                    0.08s    32.0      600    18.8s
+  Qwen2.5-32B-Instruct-AWQ       0.09s    27.5      600    21.8s
+
+======================================================================
+TEMPERATURE SUMMARY (°C)
+======================================================================
+  Sensor          Qwen3.6-27B                 Qwen2.5-32B-Instruct-AWQ  
+  ----------------------------------------------------------------------
+                    min   avg   max               min   avg   max           
+  GPU pkg          54.0  65.8  72.0              61.0  68.8  73.0           
+  GPU vram         56.0  69.8  80.0              62.0  74.4  82.0           
+  GPU mctrl        40.0  49.3  54.0              46.0  51.9  55.0           
+  CPU Tctl         45.9  50.5  51.5              48.0  50.0  50.9           
+

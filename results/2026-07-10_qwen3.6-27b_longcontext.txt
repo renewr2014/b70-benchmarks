@@ -1,0 +1,48 @@
+========================================================================
+LONG-CONTEXT BENCHMARK — Qwen3.6-27B
+========================================================================
+Date: 2026-07-10T22:00:39-05:00
+Kernel: 7.0.0-27-generic (xe driver)
+CPU: AMD Ryzen 7 9700X 8-Core Processor
+RAM: 29Gi
+GPU: Intel Corporation Battlemage G31 [Intel Graphics] [8086:e223]
+vLLM: Version: 0.14.1.dev0+gb17039bcc.d20260626.xpu
+torch: 2.10.0+xpu
+Container: intel/llm-scaler-vllm:0.14.0-b8.3.2
+Serve command: vllm serve Intel/Qwen3.6-27B-int4-AutoRound --dtype=float16 --port ${PORT} --served-model-name Qwen3.6-27B --allow-deprecated-quantization --max-model-len 32768 --enforce-eager --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3
+========================================================================
+
+Loading model (warmup)...
+Model ready in 0.2s
+[~512 tok] run 1/3... prompt=488  TTFT=0.30s  prefill=1643 tok/s  decode=32.2 tok/s
+[~512 tok] run 2/3... prompt=488  TTFT=0.30s  prefill=1645 tok/s  decode=32.2 tok/s
+[~512 tok] run 3/3... prompt=485  TTFT=0.30s  prefill=1597 tok/s  decode=32.2 tok/s
+[~2048 tok] run 1/3... prompt=1873  TTFT=1.05s  prefill=1785 tok/s  decode=31.7 tok/s
+[~2048 tok] run 2/3... prompt=1874  TTFT=1.05s  prefill=1782 tok/s  decode=31.6 tok/s
+[~2048 tok] run 3/3... prompt=1872  TTFT=1.05s  prefill=1777 tok/s  decode=31.6 tok/s
+[~8192 tok] run 1/3... prompt=7496  TTFT=4.45s  prefill=1685 tok/s  decode=30.1 tok/s
+[~8192 tok] run 2/3... prompt=7493  TTFT=4.48s  prefill=1673 tok/s  decode=30.1 tok/s
+[~8192 tok] run 3/3... prompt=7494  TTFT=4.49s  prefill=1669 tok/s  decode=30.1 tok/s
+[~16384 tok] run 1/3... prompt=14940  TTFT=9.30s  prefill=1607 tok/s  decode=28.5 tok/s
+[~16384 tok] run 2/3... prompt=14939  TTFT=9.31s  prefill=1605 tok/s  decode=28.5 tok/s
+[~16384 tok] run 3/3... prompt=14943  TTFT=9.31s  prefill=1604 tok/s  decode=28.5 tok/s
+[~24576 tok] run 1/3... prompt=22459  TTFT=14.41s  prefill=1559 tok/s  decode=27.0 tok/s
+[~24576 tok] run 2/3... prompt=22460  TTFT=14.42s  prefill=1558 tok/s  decode=27.0 tok/s
+[~24576 tok] run 3/3... prompt=22456  TTFT=14.43s  prefill=1557 tok/s  decode=27.1 tok/s
+
+========================================================================
+RESULTS (median of runs)
+========================================================================
+Prompt tok     TTFT  Prefill tok/s  Decode tok/s
+--------------------------------------------------
+       488    0.30s           1643          32.2
+      1874    1.05s           1782          31.6
+      7493    4.48s           1673          30.1
+     14939    9.31s           1605          28.5
+     22460   14.42s           1558          27.0
+
+Temps during run (°C):
+  gpu_pkg    min=44 avg=70 max=75
+  gpu_vram   min=42 avg=73 max=82
+  gpu_mctrl  min=33 avg=52 max=56
+  cpu_tctl   min=43 avg=47 max=54

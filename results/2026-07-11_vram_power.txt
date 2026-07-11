@@ -1,0 +1,36 @@
+VRAM + power capture — Qwen3.6-27B (Intel AutoRound INT4), vLLM XPU, Arc Pro B70
+Date: 2026-07-11
+Method: xpu-smi (inside intel/llm-scaler-vllm:0.14.0-b8.3.2 container) dumping
+1-second samples (metrics 0,1,2,3,4,18) while benchmark_longcontext.py ran one
+pass at ~8k and one at ~22.5k prompt tokens against the same llama-swap endpoint
+as the 2026-07-10 published run. The re-run reproduced the published table
+within +/-0.5%:
+
+  [~8192 tok]  prompt=7493   TTFT=4.44s   prefill=1689 tok/s  decode=30.1 tok/s
+  [~24576 tok] prompt=22461  TTFT=14.24s  prefill=1577 tok/s  decode=26.9 tok/s
+
+MEMORY (from vLLM startup log, [Memory Profiling Analysis] + kv_cache_utils):
+  Model weights on GPU          : 17.89 GB
+  Peak allocated (real need)    : 20.27 GB
+  Reserved footprint after load : 21.57 GB
+  Fragmentation                 : 1.31 GB
+  GPU KV cache size             : 34,304 tokens (full-attention layers;
+                                  hybrid linear-attention layers hold
+                                  constant-size state instead of growing KV)
+  Max concurrency @ 32,768/req  : 4.01x (vLLM log line, verbatim)
+
+  NOTE: xpu-smi reports ~32,003 MiB / 98% "GPU Memory Used" while serving.
+  That is vLLM's preallocated KV pool on a 32 GB card, NOT the minimum
+  footprint to run the model.
+
+POWER (1s samples during the run):
+  Sustained under load (prefill AND decode): ~230 W
+  Peak: 257 W
+  Idle with weights resident: ~54 W
+  GPU frequency peak: 2800 MHz
+  => long-context decode efficiency: 27 tok/s @ ~230 W ~= 0.12 tok/s/W
+
+Raw 1s power series (W), 60 samples spanning both requests then idle:
+257 231 230 228 197 231 231 230 230 230 230 231 229 230 255 230 230 230
+230 230 229 229 230 230 230 231 230 231 209 231 230 231 230 227 230 229
+230 229 229 225 55 54 54 54 54 54 54 54 54 54 54 54 54 54 54 54 54 54 54 54
